@@ -1,0 +1,23 @@
+{
+    "trucks": [
+      {
+        "license_plate": "ABC123",
+        "driver_name": "John Doe",
+        "driver_license": "D1234567",
+        "entry_timestamp": null,
+        "leave_timestamp": null,
+        "status": "Pending",
+        "loading_unloading": "Loading"
+      },
+      {
+        "license_plate": "XYZ789",
+        "driver_name": "Jane Smith",
+        "driver_license": "D7654321",
+        "entry_timestamp": null,
+        "leave_timestamp": null,
+        "status": "Pending",
+        "loading_unloading": "Unloading"
+      }
+    ]
+  }
+  

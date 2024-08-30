@@ -8,8 +8,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "express": "^4.19.2"
-  }
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14",
+    "twilio": "^5.2.3"
+  },
+  "description": ""
 }
