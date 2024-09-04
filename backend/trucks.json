@@ -1,23 +1,22 @@
 {
-    "trucks": [
-      {
-        "license_plate": "ABC123",
-        "driver_name": "John Doe",
-        "driver_license": "D1234567",
-        "entry_timestamp": null,
-        "leave_timestamp": null,
-        "status": "Pending",
-        "loading_unloading": "Loading"
-      },
-      {
-        "license_plate": "XYZ789",
-        "driver_name": "Jane Smith",
-        "driver_license": "D7654321",
-        "entry_timestamp": null,
-        "leave_timestamp": null,
-        "status": "Pending",
-        "loading_unloading": "Unloading"
-      }
-    ]
-  }
-  
+  "trucks": [
+    {
+      "license_plate": "ABC1234",
+      "driver_name": "John Doe",
+      "driver_license": "D1234567",
+      "entry_timestamp": "2024-09-04T13:42:05.092Z",
+      "leave_timestamp": "2024-09-04T14:51:30.771Z",
+      "status": "Completed",
+      "loading_unloading": "Loading"
+    },
+    {
+      "license_plate": "XYZ789",
+      "driver_name": "Jane Smith",
+      "driver_license": "D7654321",
+      "entry_timestamp": "2024-09-04T18:00:07.391Z",
+      "leave_timestamp": "2024-09-04T18:00:12.245Z",
+      "status": "Completed",
+      "loading_unloading": "Unloading"
+    }
+  ]
+}
