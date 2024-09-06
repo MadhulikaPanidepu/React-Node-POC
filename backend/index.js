@@ -80,7 +80,6 @@ async function sendSMS(to, message) {
     }
 }
 
-// Main POST API to update truck details and send notifications
 app.post('/api/trucks', async (req, res) => {
     const { license_plate } = req.body;
 
@@ -92,15 +91,26 @@ app.post('/api/trucks', async (req, res) => {
             // Update entry_timestamp for the first time
             truck.entry_timestamp = new Date().toISOString();
 
-            // Send email and SMS notification
+            // Set status to 'Pending'
+            truck.status = 'Pending';
+
+            // Send entry email and SMS notification
             const emailMessage = `Welcome to the warehouse, ${truck.driver_name}! Your entry has been recorded.`;
             await sendEmail(truck.email, 'Warehouse Entry Confirmation', emailMessage);
 
             const smsMessage = `Welcome to the warehouse, ${truck.driver_name}! Your entry has been recorded.`;
             await sendSMS(truck.phone_number, smsMessage);
+
         } else if (truck.entry_timestamp && !truck.leave_timestamp) {
+            // Update leave_timestamp
             truck.leave_timestamp = new Date().toISOString();
             truck.status = 'Completed';
+
+            // Send goodbye email
+            const goodbyeEmailMessage = `Goodbye from the warehouse, ${truck.driver_name}! Contact us if you need additional details.`;
+            await sendEmail(truck.email, 'Warehouse Exit Confirmation', goodbyeEmailMessage);
+
+            // You can also send an SMS if needed, similar to the entry process
         } else {
             return res.json({ success: false, message: 'Truck has already completed its loading/unloading' });
         }

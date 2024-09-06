@@ -3,12 +3,12 @@ import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';  
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 function App() {
   const [licensePlate, setLicensePlate] = useState('');
   const [truckDetails, setTruckDetails] = useState(null);
   const [error, setError] = useState('');
-  const [showModal, setShowModal] = useState(false);  // Modal state
+  const [showEntryModal, setShowEntryModal] = useState(false);  // Modal state for entry
+  const [showGoodbyeModal, setShowGoodbyeModal] = useState(false); // Modal state for goodbye
   const [driverName, setDriverName] = useState('');
 
   const fetchTruckDetails = async () => {
@@ -23,8 +23,13 @@ function App() {
         setDriverName(response.data.truck.driver_name);  // Set driver name for pop-up
         setError('');
 
-        // Show the pop-up after fetching truck details and sending email
-        setShowModal(true);
+        if (!response.data.truck.leave_timestamp) {
+          // Show entry modal if the truck just entered
+          setShowEntryModal(true);
+        } else if (response.data.truck.leave_timestamp) {
+          // Show goodbye modal if the truck is leaving
+          setShowGoodbyeModal(true);
+        }
       }
 
     } catch (err) {
@@ -59,7 +64,7 @@ function App() {
       )}
 
       {/* Bootstrap Modal for welcome message */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showEntryModal} onHide={() => setShowEntryModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Welcome to the Warehouse</Modal.Title>
         </Modal.Header>
@@ -67,7 +72,22 @@ function App() {
           Welcome to the warehouse, {driverName}! Check your email for further details.
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+          <Button variant="secondary" onClick={() => setShowEntryModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Bootstrap Modal for goodbye message */}
+      <Modal show={showGoodbyeModal} onHide={() => setShowGoodbyeModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Goodbye from the Warehouse</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Goodbye, {driverName}! Good job!
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowGoodbyeModal(false)}>
             Close
           </Button>
         </Modal.Footer>
