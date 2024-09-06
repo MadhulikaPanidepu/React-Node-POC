@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Modal, Button } from 'react-bootstrap';  
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   const [licensePlate, setLicensePlate] = useState('');
   const [truckDetails, setTruckDetails] = useState(null);
   const [error, setError] = useState('');
+  const [showModal, setShowModal] = useState(false);  // Modal state
+  const [driverName, setDriverName] = useState('');
 
   const fetchTruckDetails = async () => {
     try {
+      // Fetch truck details from the backend
       const response = await axios.post('http://localhost:5001/api/trucks', {
         license_plate: licensePlate,
       });
-
+  
       if (response.data.success) {
         setTruckDetails(response.data.truck);
+        setDriverName(response.data.truck.driver_name);  // Set driver name for pop-up
         setError('');
+
+        // Show the pop-up after fetching truck details and sending email
+        setShowModal(true);
       }
+
     } catch (err) {
       setError('Truck not found or an error occurred');
       setTruckDetails(null);
@@ -42,10 +53,25 @@ function App() {
           <p>Driver Name: {truckDetails.driver_name}</p>
           <p>Driver License: {truckDetails.driver_license}</p>
           <p>Entry Timestamp: {truckDetails.entry_timestamp}</p>
-          <p>Leaving Timestamp: {truckDetails.leave_timestamp}</p>
+          <p>Leaving Timestamp: {truckDetails.leave_timestamp ? truckDetails.leave_timestamp : 'N/A'}</p>
           <p>Status: {truckDetails.status}</p>
         </div>
       )}
+
+      {/* Bootstrap Modal for welcome message */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Welcome to the Warehouse</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Welcome to the warehouse, {driverName}! Check your email for further details.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

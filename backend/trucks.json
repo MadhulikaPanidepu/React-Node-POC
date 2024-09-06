@@ -1,22 +1,48 @@
 {
   "trucks": [
     {
-      "license_plate": "ABC1234",
+      "license_plate": "ABC123",
       "driver_name": "John Doe",
       "driver_license": "D1234567",
-      "entry_timestamp": "2024-09-04T13:42:05.092Z",
-      "leave_timestamp": "2024-09-04T14:51:30.771Z",
+      "entry_timestamp": "2024-09-06T16:09:27.913Z",
+      "leave_timestamp": "2024-09-06T16:10:43.581Z",
       "status": "Completed",
-      "loading_unloading": "Loading"
+      "loading_unloading": "Loading",
+      "email": "madhu_test@yopmail.com",
+      "phone_number": "+13134827382"
     },
     {
       "license_plate": "XYZ789",
       "driver_name": "Jane Smith",
       "driver_license": "D7654321",
-      "entry_timestamp": "2024-09-04T18:00:07.391Z",
-      "leave_timestamp": "2024-09-04T18:00:12.245Z",
-      "status": "Completed",
-      "loading_unloading": "Unloading"
+      "entry_timestamp": null,
+      "leave_timestamp": null,
+      "status": null,
+      "loading_unloading": "Unloading",
+      "email": "madhu_test@yopmail.com",
+      "phone_number": "+13134827382"
+    },
+    {
+      "license_plate": "LMN456",
+      "driver_name": "Madhulika P",
+      "driver_license": "D456789",
+      "entry_timestamp": null,
+      "leave_timestamp": null,
+      "status": null,
+      "loading_unloading": "Loading",
+      "email": "madhu_test@yopmail.com",
+      "phone_number": "+13134827382"
+    },
+    {
+      "license_plate": "DEF678",
+      "driver_name": " Jai Ganesh",
+      "driver_license": "D987654",
+      "entry_timestamp": null,
+      "leave_timestamp": null,
+      "status": null,
+      "loading_unloading": "Unloading",
+      "email": "madhu_test@yopmail.com",
+      "phone_number": "+13134827382"
     }
   ]
 }
