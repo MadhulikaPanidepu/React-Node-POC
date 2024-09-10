@@ -90,7 +90,6 @@ function App() {
         </div>
       </Navbar>
       
-      {/* Main Content Section */}
       <div className="flex-grow container mx-auto flex flex-col justify-center items-center p-4 sm:p-6">
         
         {activeTab === 'ongoing' && (
