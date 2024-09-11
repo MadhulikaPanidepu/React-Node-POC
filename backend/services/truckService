@@ -1,0 +1,104 @@
+const nodemailer = require('nodemailer');
+const { MongoClient } = require('mongodb');
+const uri = 'mongodb+srv://pmadhulika9:DLex5gMfPWhdt8Ea@iobcluster.pbcky.mongodb.net/'; 
+const client = new MongoClient(uri);
+
+let trucksCollection;
+
+  async function connectToMongoDB() {
+    try {
+      await client.connect();
+      const db = client.db('iobcluster'); 
+      trucksCollection = db.collection('trucks'); 
+      console.log('Connected to MongoDB');
+    } catch (error) {
+      console.error('Error connecting to MongoDB:', error);
+    }
+}
+connectToMongoDB();
+
+
+const transporter = nodemailer.createTransport({ 
+    service: 'gmail',
+    auth: {
+      user: 'prettymadhulika@gmail.com',
+      pass: 'vauzmwwxiuowkxvg', 
+    },
+});
+
+// Verify the transporter configuration
+transporter.verify((error, success) => {
+  if (error) {
+    console.error('Error in transporter configuration:', error);
+  } else {
+    console.log('Transporter is ready to send messages');
+  }
+});
+
+// Fetch truck by license plate
+async function getTruckByLicensePlate(license_plate) {
+  return await trucksCollection.findOne({ license_plate });
+}
+  
+// Update truck data
+async function updateTruck(license_plate, updateData) {
+    await trucksCollection.updateOne({ license_plate }, { $set: updateData });
+}
+
+async function sendEmail(to, subject, message) {
+    try {
+        console.log("Attempting to send email...");
+        const mailOptions = {
+            from: 'prettymadhulika@gmail.com',
+            to: to,
+            subject: subject,
+            text: message,
+        };
+        
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Email sent successfully:", info.response);
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+}
+async function getAllTrucks() {
+    return await trucksCollection.find({}).toArray(); // This returns all trucks as an array
+}
+  
+// task to reset entry and leave timestamps/status after 24 hours
+setInterval(async () => {
+    console.log("Checking for trucks to reset...");
+    try {
+      // Get all trucks
+      let trucksData = await getAllTrucks(); // Fetch all trucks asynchronously
+      const currentTime = new Date();
+
+      // Loop over each truck
+      trucksData.forEach(truck => {
+          if (truck.status === "Completed" && truck.leave_timestamp) {
+              const leaveTime = new Date(truck.leave_timestamp);
+              const timeDifference = currentTime - leaveTime;
+
+              // 24 hours 
+              if (timeDifference >= 86400000) {
+                  truck.entry_timestamp = null;
+                  truck.leave_timestamp = null;
+                  truck.status = null;
+
+                  // Update the truck in the database
+                  updateTruck(truck.license_plate, {
+                    entry_timestamp: truck.entry_timestamp,
+                    leave_timestamp: truck.leave_timestamp,
+                    status: truck.status
+                  });
+              }
+          }
+      });
+
+      console.log("Reset completed for trucks with completed status.");
+    } catch (error) {
+      console.error("Error resetting trucks:", error);
+    }
+}, 60000);
+
+module.exports = { getTruckByLicensePlate, updateTruck, sendEmail };

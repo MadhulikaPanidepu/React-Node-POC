@@ -4,7 +4,7 @@ import { Navbar, Nav, Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'tailwindcss/tailwind.css';  
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTruck, faEnvelope, faPhone, faWarehouse, faTruckLoading, faClock, faUser } from '@fortawesome/free-solid-svg-icons'; 
+import { faTruck, faEnvelope, faPhone, faWarehouse, faTruckLoading, faUser } from '@fortawesome/free-solid-svg-icons'; 
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 function App() {
@@ -18,40 +18,40 @@ function App() {
   const [totalTrucks, setTotalTrucks] = useState(0);  
 
   useEffect(() => {
-    const fetchTruckCount = async () => {
-      try {
-        const response = await axios.get('http://localhost:5001/api/trucks');
-        setTotalTrucks(response.data.length); 
-      } catch (err) {
-        console.error('Error fetching truck data', err);
-      }
-    };
+      const fetchTruckCount = async () => {
+        try {
+          const response = await axios.get('http://localhost:5001/api/trucks');
+          setTotalTrucks(response.data.length); 
+        } catch (err) {
+          console.error('Error fetching truck data', err);
+        }
+      };
 
-    fetchTruckCount();
+      fetchTruckCount();
   }, []);
 
   const fetchTruckDetails = async () => {
-    try {
-      const response = await axios.post('http://localhost:5001/api/trucks', {
-        license_plate: licensePlate,
-      });
-  
-      if (response.data.success) {
-        setTruckDetails(response.data.truck);
-        setDriverName(response.data.truck.driver_name);
-        setError('');
+      try {
+        const response = await axios.post('http://localhost:5001/api/trucks', {
+          license_plate: licensePlate,
+        });
+    
+        if (response.data.success) {
+          setTruckDetails(response.data.truck);
+          setDriverName(response.data.truck.driver_name);
+          setError('');
 
-        if (!response.data.truck.leave_timestamp) {
-          setShowEntryModal(true);
-        } else if (response.data.truck.leave_timestamp) {
-          setShowGoodbyeModal(true);
+          if (!response.data.truck.leave_timestamp) {
+            setShowEntryModal(true);
+          } else if (response.data.truck.leave_timestamp) {
+            setShowGoodbyeModal(true);
+          }
         }
-      }
 
-    } catch (err) {
-      setError('Truck not found or an error occurred');
-      setTruckDetails(null);
-    }
+      } catch (err) {
+        setError('Truck not found or an error occurred');
+        setTruckDetails(null);
+      }
   };
 
   return (
