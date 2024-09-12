@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3  # Updated to v3
         with:
-          node-version: '20'  # Ensure Node.js 20 is used
+          node-version: '16'  # Ensure Node.js 20 is used
 
       # Step 3: Install dependencies for the backend
       - name: Install backend dependencies
