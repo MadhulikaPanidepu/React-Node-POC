@@ -20,7 +20,7 @@ RUN npm run build
 RUN npm install -g serve
 
 # Expose port 5000 (or whichever port you want to use for the frontend)
-EXPOSE 3000
+EXPOSE 3001
 
 # Command to serve the built frontend
 CMD ["serve", "-s", "build"]
