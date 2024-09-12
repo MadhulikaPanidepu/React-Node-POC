@@ -48,4 +48,4 @@ jobs:
 
       # Step 8: Deploy to GCP App Engine
       - name: Deploy to GCP App Engine
-        run: gcloud app deploy --quiet
+        run: gcloud app deploy 
