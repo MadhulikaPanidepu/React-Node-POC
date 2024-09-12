@@ -13,11 +13,11 @@ jobs:
     steps:
       # Step 1: Check out the repository code
       - name: Checkout repository code
-        uses: actions/checkout@v2  # Updated to v3
+        uses: actions/checkout@v3  # Updated to v3
 
       # Step 2: Set up Node.js for building the project
       - name: Set up Node.js
-        uses: actions/setup-node@v2  # Updated to v3
+        uses: actions/setup-node@v3  # Updated to v3
         with:
           node-version: '16'  # Ensure Node.js 20 is used
 

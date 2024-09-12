@@ -1,4 +1,4 @@
-runtime: nodejs16  # Specify the runtime to use for Node.js 20
+runtime: nodejs20  # Specify the runtime to use for Node.js 20
 env: flex          # Use the flexible environment
 
 automatic_scaling:
