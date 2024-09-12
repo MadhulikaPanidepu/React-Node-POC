@@ -23,4 +23,4 @@ automatic_scaling:
   min_pending_latency: automatic
   max_pending_latency: automatic
 
-service_account: pmadhulika.9@gmail.com
+service_account: iob-warehouse@appspot.gserviceaccount.com
