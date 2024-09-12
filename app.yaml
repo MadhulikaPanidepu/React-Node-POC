@@ -1,8 +1,26 @@
 runtime: nodejs20
+env: standard
+instance_class: F1
+
 handlers:
-- url: /(.*\..+)$
-  static_files: build/\1
-  upload: build/(.*\..+)$
-- url: /.*
-  static_files: build/index.html
-  upload: build/index.html
+  # Serve static files (JS, CSS, etc.) from the build directory
+  - url: /(.*\..+)$
+    static_files: build/\1
+    upload: build/(.*\..+)$
+
+  # Catch-all handler for React's index.html (for React Router support)
+  - url: /.*
+    static_files: build/index.html
+    upload: build/index.html
+
+  # Backend API routes (adjust if necessary)
+  - url: /api/.*
+    script: auto
+
+automatic_scaling:
+  min_idle_instances: automatic
+  max_idle_instances: automatic
+  min_pending_latency: automatic
+  max_pending_latency: automatic
+
+service_account: iob-warehouse@appspot.gserviceaccount.com
