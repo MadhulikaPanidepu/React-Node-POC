@@ -135,7 +135,7 @@ function App() {
           <div className="p-8 sm:p-8  max-w-4xl text-gray-700">
             <article className="prose prose-lg">
               <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 text-blue-700">
-                <FontAwesomeIcon icon={faWarehouse} className="mr-2" /> Welcome to IOB Warehouse Management System
+                <FontAwesomeIcon icon={faWarehouse} className="mr-2" /> Welcome to Warehouse Management System
               </h1>
               <p className="mb-6">
                 <FontAwesomeIcon icon={faTruckLoading} className="mr-2" /> This application helps warehouse owners manage and track all transactions related to inbound and outbound trucks.

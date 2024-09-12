@@ -1,0 +1,11 @@
+runtime: nodejs20  # Specify the runtime to use for Node.js 20
+env: flex          # Use the flexible environment
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 2
+
+handlers:
+  # Define routes for your app, such as serving static files
+  - url: /.*
+    script: auto
