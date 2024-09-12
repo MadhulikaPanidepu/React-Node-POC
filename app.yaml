@@ -1,7 +1,4 @@
-runtime: nodejs20  
-automatic_scaling:
-  min_num_instances: 1
-  max_num_instances: 2
+runtime: nodejs20
 handlers:
 - url: /(.*\..+)$
   static_files: build/\1
