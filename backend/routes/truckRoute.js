@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Assume these are your service functions
-const { getTruckByLicensePlate, updateTruck, sendEmail } = require('../services/truckService');
+const { getTruckByLicensePlate, updateTruck, sendEmail, getAllTrucks } = require('../services/truckService');
 
 /**
  * @swagger
@@ -39,6 +39,21 @@ const { getTruckByLicensePlate, updateTruck, sendEmail } = require('../services/
 /**
  * @swagger
  * /api/trucks:
+ *   get:
+ *     summary: Retrieve a list of all trucks
+ *     description: Retrieve all trucks currently stored in the warehouse database, including their status, entry/leave timestamps, and other details.
+ *     responses:
+ *       200:
+ *         description: A list of trucks
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Truck'
+ *       500:
+ *         description: Internal server error
+ *
  *   post:
  *     summary: Create or update truck data
  *     description: Create a new truck entry or update its entry/exit times based on the license plate
@@ -65,9 +80,22 @@ const { getTruckByLicensePlate, updateTruck, sendEmail } = require('../services/
  *         description: Internal server error
  */
 
-router.get('/', (req,res) => {
-    res.send('working');
+
+router.get('/api/trucks', async (req, res) => {
+  if (!getAllTrucks) {
+    return res.status(500).json({ message: 'Database not connected yet' });
+  }
+
+  try {
+    const trucks = await getAllTrucks();  // Fetch all truck data
+    res.json(trucks);
+  } catch (error) {
+    console.error('Error fetching truck data', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 });
+
+
 
 router.post('/api/trucks', async (req, res) => {
   const { license_plate } = req.body;

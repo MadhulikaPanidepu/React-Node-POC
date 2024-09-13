@@ -6,6 +6,9 @@ import 'tailwindcss/tailwind.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTruck, faEnvelope, faPhone, faWarehouse, faTruckLoading, faUser } from '@fortawesome/free-solid-svg-icons'; 
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import Insights from './components/Insights';
+import americoldLogo from './assets/americold_logo.jpeg';
+
 
 function App() {
   const [licensePlate, setLicensePlate] = useState('');
@@ -59,7 +62,7 @@ function App() {
       <Navbar bg="light" expand="lg" className="shadow-sm py-6">
         <div className="container flex items-center justify-between">
           <Navbar.Brand href="#" className="font-bold text-3xl sm:text-5xl text-blue-600 flex items-center">
-            <FontAwesomeIcon icon={faTruck} className="mr-2" /> IOB
+          <img src={americoldLogo} alt="Americold Logo" className="mr-2" style={{ height: '60px', width: '130px' }} /> 
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -159,11 +162,7 @@ function App() {
           </div>
         )}
 
-        {activeTab === 'insights' && (
-          <div className="text-center text-xl text-gray-600">
-            Insights of IOB will be displayed here.
-          </div>
-        )}
+        {activeTab === 'insights' && <Insights/>}
       </div>
 
       <footer className="bg-gray-800 text-white py-6">

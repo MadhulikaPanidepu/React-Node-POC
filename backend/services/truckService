@@ -3,20 +3,27 @@ const { MongoClient } = require('mongodb');
 const uri = 'mongodb+srv://pmadhulika9:DLex5gMfPWhdt8Ea@iobcluster.pbcky.mongodb.net/'; 
 const client = new MongoClient(uri);
 
+
 let trucksCollection;
 
-  async function connectToMongoDB() {
-    try {
-      await client.connect();
-      const db = client.db('iobcluster'); 
-      trucksCollection = db.collection('trucks'); 
-      console.log('Connected to MongoDB');
-    } catch (error) {
-      console.error('Error connecting to MongoDB:', error);
-    }
+async function connectToMongoDB() {
+  try {
+    await client.connect();
+    const db = client.db('iobcluster'); 
+    trucksCollection = db.collection('trucks'); 
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);  
+  }
 }
-connectToMongoDB();
 
+// Call the connection function and wait for it to finish
+connectToMongoDB().then(() => {
+  console.log('MongoDB connection established successfully');
+}).catch(error => {
+  console.error('Failed to connect to MongoDB:', error);
+});
 
 const transporter = nodemailer.createTransport({ 
     service: 'gmail',
@@ -34,6 +41,19 @@ transporter.verify((error, success) => {
     console.log('Transporter is ready to send messages');
   }
 });
+
+// Getter for trucksCollection
+function getTrucksCollection() {
+  if (!trucksCollection) {
+    throw new Error('Database not connected yet');
+  }
+  return trucksCollection;
+}
+
+// Fetch all trucks
+async function getAllTrucks() {
+  return await getTrucksCollection().find({}).toArray(); // This returns all trucks as an array
+}
 
 // Fetch truck by license plate
 async function getTruckByLicensePlate(license_plate) {
@@ -70,7 +90,7 @@ setInterval(async () => {
     console.log("Checking for trucks to reset...");
     try {
       // Get all trucks
-      let trucksData = await getAllTrucks(); // Fetch all trucks asynchronously
+      let trucksData = await getAllTrucks(); 
       const currentTime = new Date();
 
       // Loop over each truck
@@ -80,7 +100,7 @@ setInterval(async () => {
               const timeDifference = currentTime - leaveTime;
 
               // 24 hours 
-              if (timeDifference >= 86400000) {
+              if (timeDifference >= 300000) {
                   truck.entry_timestamp = null;
                   truck.leave_timestamp = null;
                   truck.status = null;
@@ -91,14 +111,13 @@ setInterval(async () => {
                     leave_timestamp: truck.leave_timestamp,
                     status: truck.status
                   });
+                  console.log("Reset completed for trucks with completed status.");
               }
           }
-      });
-
-      console.log("Reset completed for trucks with completed status.");
+      }); 
     } catch (error) {
       console.error("Error resetting trucks:", error);
     }
-}, 60000);
+}, 6000);
 
-module.exports = { getTruckByLicensePlate, updateTruck, sendEmail };
+module.exports = { getTruckByLicensePlate, updateTruck, sendEmail, getAllTrucks};
