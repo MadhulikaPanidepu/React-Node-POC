@@ -56,7 +56,7 @@ function Insights() {
     };
 
     fetchTruckData();
-  }, []);
+  }, [RECENT_TIME_WINDOW]);
 
   // Data array for the PieChart (Pending, Completed, and Other Trucks)
   const data = [
